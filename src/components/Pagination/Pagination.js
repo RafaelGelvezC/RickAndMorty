@@ -1,22 +1,59 @@
-import React from 'react';
+import React, { useState, useEffect } from "react";
 import ReactPaginate from 'react-paginate';
 
   const Pagination = ({ info, setPageNumber, pageNumber}) => {
 
-  return <ReactPaginate 
-    className="pagination justify-content-center my-4 gap-4"
-    forcePage={pageNumber === 1 ? 0 : pageNumber - 1}
-    nextLabel="Next"
-    previousLabel="Prev"
-    nextclassName="btn btn-outline-primary fs-5 next"
-    previousclassName="btn btn-outline-primary fs-5 prev"
-    pageclassName="page-item"
-    pageLinkclassName="page-link"
-    activeclassName="active" //para que se coloque en azul donde esta la apgian seleccionada
-    onPageChange={(data)=> {
-      setPageNumber(data.selected + 1);
-    }}
-    pageCount={info?.pages} />; //el "?" espara para preguntar si la "info" existe, si existe  que pase al .page
-  }
+    let [width, setWidth] = useState(window.innerWidth);
+
+    let updateDimensions = () => {
+      setWidth(window.innerWidth);
+    };
+    useEffect(() => {
+      window.addEventListener("resize", updateDimensions);
+      return () => window.removeEventListener("resize", updateDimensions);
+    }, []);
+
+    return (
+      <>
+        <style jsx>
+          {`
+            @media (max-width: 768px) {
+              .pagination {
+                font-size: 12px;
+              }
+              .next,
+              .prev {
+                display: none;
+              }
+            }
+            @media (max-width: 768px) {
+              .pagination {
+                font-size: 14px;
+              }
+            }
+          `}
+        </style>
+        <ReactPaginate
+          className="pagination justify-content-center my-4 gap-4"
+          nextLabel="Next"
+          forcePage={pageNumber === 1 ? 0 : pageNumber - 1}
+          previousLabel="Prev"
+          previousClassName="btn btn-primary fs-5 prev"
+          nextClassName="btn btn-primary fs-5 next"
+          activeClassName="active"
+          marginPagesDisplayed={width < 576 ? 1 : 2}
+          pageRangeDisplayed={width < 576 ? 1 : 2}
+          pageCount={info?.pages}
+          onPageChange={(data)=> {
+            setPageNumber(data.selected + 1);
+          }}
+          pageClassName="page-item"
+          pageLinkClassName="page-link"
+        />
+      </>
+    );
+  };
 
 export default Pagination
+
+

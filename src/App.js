@@ -10,6 +10,7 @@ import NavBar from './components/NavBar/NavBar';
 import {BrowserRouter as Router, Routes, Route} from 'react-router-dom';
 import Episodes from './Pages/Episodes';
 import Location from './Pages/Location';
+import CardDetails from './components/Cards/CardDetails';
 
 function App() {
   return(
@@ -20,8 +21,14 @@ function App() {
 
       <Routes>
         <Route path="/" element={<Home />} />
+
+        <Route path="/:id" element={<CardDetails />} />
+
         <Route path="/episodes" element={<Episodes />} />
+        <Route path="/episodes/:id" element={<CardDetails />} />
+
         <Route path="/location" element={<Location />} />
+        <Route path="/location/:id" element={<CardDetails />} />
       </Routes>
     </Router>
   )
@@ -47,7 +54,7 @@ const Home = () =>{
 
   return (
     <div className="App">
-      
+      <h1 className="text-center mb-4">Characters</h1>
       <Search 
         setPageNumber={setPageNumber} //para que reinicie la busqueda desde la pagina 1
         setSearch={setSearch} 
@@ -60,9 +67,12 @@ const Home = () =>{
             setGender={setGender}
             setSpecies={setSpecies}
           />
-          <div className="col-8">
+          <div className="col-lg-8 col-12">
           <div className="row">
-            <Cards results={results} />
+            <Cards 
+              page="/"
+              results={results} 
+            />
           </div>
           </div>
         </div>
