@@ -5,9 +5,29 @@ import Cards from './components/Cards/Cards';
 import Filters from './components/Filters/Filters';
 import Pagination from './components/Pagination/Pagination';
 import Search from './components/Search/Search';
+import NavBar from './components/NavBar/NavBar';
+
+import {BrowserRouter as Router, Routes, Route} from 'react-router-dom';
+import Episodes from './Pages/Episodes';
+import Location from './Pages/Location';
 
 function App() {
+  return(
+    <Router>
+      <div className="App">
+        <NavBar />
+      </div>
 
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/episodes" element={<Episodes />} />
+        <Route path="/location" element={<Location />} />
+      </Routes>
+    </Router>
+  )
+}
+
+const Home = () =>{
   let [pageNumber, setPageNumber] = useState(1);
   let [search, setSearch] = useState("");
   let [status, setStatus] = useState ("");
@@ -27,9 +47,7 @@ function App() {
 
   return (
     <div className="App">
-      <h1 className='text-center ubuntu my-4'>
-        Rick & Morty <span className='text-primary'>API</span>
-      </h1>
+      
       <Search 
         setPageNumber={setPageNumber} //para que reinicie la busqueda desde la pagina 1
         setSearch={setSearch} 
